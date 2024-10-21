@@ -15,30 +15,31 @@ prompt = st.text_input("Enter a prompt:")
 # User input: number of tokens
 max_tokens = st.number_input("Enter the number of tokens for the response:", min_value=10, max_value=500, value=100)
 
-# Generate responses
-if st.button("Generate Response"):
-    # Response with high creativity (high temperature)
-    response_creative = openai.ChatCompletion.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are a creative assistant."},
+### OpenAI stuff
+if prompt:
+  response1 = openai.ChatCompletion.create(
+    model="gpt-4o-mini",
+    messages=[
+            {"role": "system", "content": "You are a highly creative AI."},
             {"role": "user", "content": prompt}
-        ],
-        max_tokens=max_tokens,
-        temperature=0.8  # High creativity
-    )
-    st.write("Creative Response:")
-    st.write(response_creative['choices'][0]['message']['content'].strip())
+    ],
+    max_tokens=max_tokens,
+    temperature=0.9
+  )
 
-    # Response with low creativity (low temperature)
-    response_predictable = openai.ChatCompletion.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
+  response2 = openai.ChatCompletion.create(
+    model="gpt-4o-mini",
+    messages=[
+            {"role": "system", "content": "You are a highly predictable AI."},
             {"role": "user", "content": prompt}
-        ],
-        max_tokens=max_tokens,
-        temperature=0.2  # Low creativity, more predictable
-    )
-    st.write("Predictable Response:")
-    st.write(response_predictable['choices'][0]['message']['content'].strip())
+    ],
+    max_tokens=max_tokens,
+    temperature=0.1
+  )
+
+### Display
+st.subheader("Response 1:")
+st.write(response1.choices[0].message['content'])
+
+st.subheader("Response 2:")
+st.write(response2.choices[0].message['content'])
