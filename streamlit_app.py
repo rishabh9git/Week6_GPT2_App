@@ -29,7 +29,7 @@ if st.button("Generate Response"):
         do_sample=True, 
         temperature=1.6
     )
-    highly_creative_response = tokenizer.decode(outputs_high[0], skip_special_tokens=True)
+    creative_response = tokenizer.decode(outputs_high[0], skip_special_tokens=True)
     st.write("Creative Response:")
     st.write(creative_response)
 
@@ -39,6 +39,6 @@ if st.button("Generate Response"):
         do_sample=True, 
         temperature=0.2
      )
-    highly_predictable_response = tokenizer.decode(outputs_low[0], skip_special_tokens=True)
+    predictable_response = tokenizer.decode(outputs_low[0], skip_special_tokens=True)
     st.write("Predictable Response:")
     st.write(predictable_response)
