@@ -9,7 +9,7 @@ max_tokens = st.number_input("Enter the number of tokens for the response", min_
 
 ### Load your API Key
 my_secret_key = st.secrets['MyOpenAIKey']
-os.environ["OPENAI_API_KEY"] = my_secret_key
+openai.api_key = my_secret_key
 
 ### OpenAI stuff
 if prompt:
