@@ -2,10 +2,10 @@ import streamlit as st
 import openai
 import os
 
-st.title("My Super Awesome OpenAI API Deployment!")
+st.title("Welcome to Rishabh's GPT2 App")
 
-prompt = st.text_input("What is your prompt today?", "Enter your prompt here")
-max_tokens = st.number_input("Enter the number of tokens for the response", min_value=1, max_value=100, value=50)
+prompt = st.text_input("Please enter your prompt?", "Enter your prompt here")
+max_tokens = st.number_input("Enter the number of tokens for the response", min_value=1, max_value=500, value=100)
 
 ### Load your API Key
 my_secret_key = st.secrets['MyOpenAIKey']
@@ -16,21 +16,21 @@ if prompt:
   response1 = openai.ChatCompletion.create(
     model="gpt-4o-mini",
     messages=[
-            {"role": "system", "content": "You are a highly creative AI."},
+            {"role": "system", "content": "You are a creative assistant"},
             {"role": "user", "content": prompt}
     ],
     max_tokens=max_tokens,
-    temperature=0.9
+    temperature=0.8
   )
 
   response2 = openai.ChatCompletion.create(
     model="gpt-4o-mini",
     messages=[
-            {"role": "system", "content": "You are a highly predictable AI."},
+            {"role": "system", "content": "You are a predictable assistant."},
             {"role": "user", "content": prompt}
     ],
     max_tokens=max_tokens,
-    temperature=0.1
+    temperature=0.2
   )
 
 ### Display
