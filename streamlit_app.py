@@ -1,41 +1,44 @@
 import streamlit as st
-import openai
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+import torch
 import os
 
+### Title of app on Streamlit
 st.title("Welcome to Rishabh's GPT2 App")
 
-prompt = st.text_input("Please enter your prompt?", "Enter your prompt here")
+### Enter BUID
+BUID = 41482074
+
+### OpenAI Secret Key
+my_secret_key = st.secrets['MyOpenAIKey']
+
+### Load GPT2 from hugging face
+model = GPT2LMHeadModel.from_pretrained("gpt2")
+tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+
+### Prompt input on streamlit app by user
+prompt = st.text_input("Hello, please enter your prompt below and see the wonder happening", "Enter")
 max_tokens = st.number_input("Enter the number of tokens for the response", min_value=1, max_value=500, value=100)
 
-### Load your API Key
-my_secret_key = st.secrets['MyOpenAIKey']
-openai.api_key = my_secret_key
+### Engineer the types of responses based on temperature
+if st.button("Generate Response"):
+    inputs = tokenizer(prompt, return_tensors="pt")
+    outputs_high = model.generate(
+        inputs['input_ids'], 
+        max_length=max_tokens,
+        do_sample=True, 
+        temperature=1.6
+    )
+    highly_creative_response = tokenizer.decode(outputs_high[0], skip_special_tokens=True)
+    st.write("Creative Response:")
+    st.write(creative_response)
 
-### OpenAI stuff
-if prompt:
-  response1 = openai.ChatCompletion.create(
-    model="gpt-4o-mini",
-    messages=[
-            {"role": "system", "content": "You are a creative assistant"},
-            {"role": "user", "content": prompt}
-    ],
-    max_tokens=max_tokens,
-    temperature=0.8
-  )
-
-  response2 = openai.ChatCompletion.create(
-    model="gpt-4o-mini",
-    messages=[
-            {"role": "system", "content": "You are a predictable assistant."},
-            {"role": "user", "content": prompt}
-    ],
-    max_tokens=max_tokens,
-    temperature=0.2
-  )
-
-### Display
-st.subheader("Response 1:")
-st.write(response1.choices[0].message['content'])
-
-st.subheader("Response 2:")
-st.write(response2.choices[0].message['content'])
+    outputs_low = model.generate(
+        inputs['input_ids'], 
+        max_length=max_tokens, 
+        do_sample=True, 
+        temperature=0.2
+     )
+    highly_predictable_response = tokenizer.decode(outputs_low[0], skip_special_tokens=True)
+    st.write("Predictable Response:")
+    st.write(predictable_response)
