@@ -17,7 +17,7 @@ model = GPT2LMHeadModel.from_pretrained("gpt2")
 tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
 
 ### Prompt input on streamlit app by user
-prompt = st.text_input("Hello, please enter your prompt below and see the wonder happening", "Enter")
+prompt = st.text_input("Hello, please enter your prompt below and see the wonder happening", "Enter your prompt please")
 max_tokens = st.number_input("Enter the number of tokens for the response", min_value=1, max_value=500, value=100)
 
 ### Engineer the types of responses based on temperature
